@@ -46,10 +46,22 @@ public class MainActivity extends AppCompatActivity {
 //
 //                text+= "id : "+country.getId()+" name : "+country.getName()+" capital : "+country.getCapital()+"\n";
 //            }
+            for (LinkSection linkSection : constellation.getLinkSections()) {
+                text += "LinkSection: " + linkSection.getTitle() + ", " + linkSection.getSubtitle()
+                        + ", " + linkSection.getLayout()+"\n";
+                for (Link link : linkSection.getLinks()) {
+                    text += "Link: " +
+                            (link.getUri() != null ? "uri: "+link.getUri() + ", ": "") +
+                            (link.getHref() != null ? "href: "+link.getHref() + ", ": "") +
+                            (link.getIcon() != null ? "icon: "+link.getIcon() + ", ": "") +
+                            "\n";
+                }
+                text +="\n";
+            }
             for (Text textBlock : constellation.getTexts()) {
-                text += "textBlock: " + textBlock.getTitle() + "\n" +
-                        "subtitle: " + textBlock.getSubtitle() + "\n" +
+                text += "textBlock: " + textBlock.getTitle() + ", " + "subtitle: " + textBlock.getSubtitle() + "\n" +
                         "text: " + textBlock.getText() + "\n";
+                text +="\n";
             }
 
             textView.setText(text);

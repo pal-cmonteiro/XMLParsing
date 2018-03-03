@@ -2,24 +2,24 @@ package com.journaldev.xmlparsing;
 
 public class Link {
 
-    private String mUrl;
+    private String mUri;
     private String mHref;
     private String mIcon;
     private String mText;
 
-    public Link(String url, String href, String icon, String text) {
-        mUrl = url;
+    public Link(String uri, String href, String icon, String text) {
+        mUri = uri;
         mHref = href;
         mIcon = icon;
         mText = text;
     }
 
-    public String getUrl() {
-        return mUrl;
+    public String getUri() {
+        return mUri;
     }
 
-    public void setUrl(String url) {
-        mUrl = url;
+    public void setUri(String uri) {
+        mUri = uri;
     }
 
     public String getHref() {

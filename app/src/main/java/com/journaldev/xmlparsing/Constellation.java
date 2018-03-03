@@ -4,7 +4,7 @@ import java.util.List;
 
 class Constellation {
     private List<Group> mGroups;
-    private List<LinkSection> mLinks;
+    private List<LinkSection> mLinkSections;
     private List<Text> mTexts;
 
     public List<Group> getGroups() {
@@ -15,12 +15,12 @@ class Constellation {
         mGroups = groups;
     }
 
-    public List<LinkSection> getLinks() {
-        return mLinks;
+    public List<LinkSection> getLinkSections() {
+        return mLinkSections;
     }
 
-    public void setLinks(List<LinkSection> links) {
-        mLinks = links;
+    public void setLinkSections(List<LinkSection> linkSections) {
+        mLinkSections = linkSections;
     }
 
     public List<Text> getTexts() {
