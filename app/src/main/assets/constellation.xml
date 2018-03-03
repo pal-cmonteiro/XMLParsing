@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <groups title="Groups" subtitle="" layout="vertical">
-        <group></group>
-        <group></group>
+    <groups title="GroupsTitle" subtitle="GroupsSubtitle" layout="vertical">
+        <group id="1"></group>
+        <group id="2"></group>
     </groups>
-    <links title="Links" subtitle="" layout="vertical">
+    <links title="LinksTitle" subtitle="LinksSubtitle" layout="vertical">
         <link url="" icon="?">LINK 1</link>
         <link url="" icon="?">LINK 2</link>
         <link href="http://www.google.com" icon="?">LINK 3</link>
