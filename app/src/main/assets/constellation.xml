@@ -5,11 +5,14 @@
         <group id="2"></group>
     </groups>
     <links title="LinksTitle" subtitle="LinksSubtitle" layout="vertical">
-        <link url="" icon="?">LINK 1</link>
-        <link url="" icon="?">LINK 2</link>
+        <link uri="" icon="?">LINK 1</link>
+        <link uri="" icon="?">LINK 2</link>
         <link href="http://www.google.com" icon="?">LINK 3</link>
     </links>
     <text title="TextTitle" subtitle="TextSubtitle">Text le Text</text>
+    <links title="Links2" subtitle="LinksSub2" layout="horizontal">
+        <link uri="uri2" icon="icon2">LINK 2.1</link>
+    </links>
     <text title="TextTitle2" subtitle="TextSubtitle2">Text le Text2</text>
 </root>
 
