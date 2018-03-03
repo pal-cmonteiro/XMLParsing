@@ -1,2 +1,21 @@
+!/.gitignore
 
 \.idea/
+
+.gradle
+.idea/
+.DS_Store
+
+/local.properties
+
+**/build
+# /android_core/build
+**/release
+# /app/build
+# /java_core/build
+# /lib_viewpagerindicator/build
+
+/app/*.apk
+/app/*report.txt
+
+**/*.iml
