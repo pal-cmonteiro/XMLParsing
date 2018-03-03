@@ -51,6 +51,7 @@ public class ConstellationXmlPaser {
     private Constellation readRoot(XmlPullParser parser) throws XmlPullParserException, IOException {
         Constellation constellation = new Constellation();
         List<Group> groups = new ArrayList<>();
+        List<LinkSection> links = new ArrayList<>();
         List<Text> texts = new ArrayList<>();
 
         parser.require(XmlPullParser.START_TAG, ns, "root");
@@ -59,10 +60,12 @@ public class ConstellationXmlPaser {
                 continue;
             }
             String name = parser.getName();
-            if (name.equals("text")) {
-                texts.add(readTextBlock(parser));
+            if (name.equals("links")) {
+                links.add(readLinksSection(parser));
             } else if (name.equals("groups")) {
                 constellation.setGroups(parseGroupsXML(parser));
+            } else if (name.equals("text")) {
+                texts.add(readTextBlock(parser));
             } else {
                 skip(parser);
             }
@@ -130,28 +133,60 @@ public class ConstellationXmlPaser {
         return new Group(title, subtitle);
     }
 
+
+
+    private LinkSection readLinksSection(XmlPullParser parser) throws XmlPullParserException,IOException {
+        //LinkSection linkSection = new LinkSection();
+        parser.require(XmlPullParser.START_TAG, ns, "links");
+        String title = "";
+        String subtitle = "";
+        String layout = "";
+        List<Link> links = new ArrayList<>();
+
+        title = parser.getAttributeValue(ns, "title");
+        subtitle = parser.getAttributeValue(ns, "subtitle");
+        layout = parser.getAttributeValue(ns, "layout");
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.getEventType() != XmlPullParser.START_TAG) {
+                continue;
+            }
+            String name = parser.getName();
+            // Starts by looking for the entry tag
+            if (name.equals("link")) {
+                links.add(readLink(parser));
+            } else {
+                skip(parser);
+            }
+        }
+        return new LinkSection(title, subtitle, layout, links);
+    }
+
+    // Parses the contents of an link. If it encounters a mTitle, summary, or link tag, hands them
+    // off
+    // to their respective &quot;read&quot; methods for processing. Otherwise, skips the tag.
+    private Link readLink(XmlPullParser parser) throws XmlPullParserException, IOException {
+        parser.require(XmlPullParser.START_TAG, ns, "link");
+        String url = "";
+        String href = "";
+        String icon = "";
+        String text = "";
+        String tag = parser.getName();
+        if (tag.equals("link")) {
+            url = parser.getAttributeValue(ns, "url");
+            href = parser.getAttributeValue(ns, "href");
+            icon = parser.getAttributeValue(ns, "icon");
+            text = readText(parser);
+        }
+        parser.require(XmlPullParser.END_TAG, ns, "link");
+        return new Link(url, href, icon, text);
+    }
+
     // Processes mTitle tags in the feed.
     private String readTitle(XmlPullParser parser) throws IOException, XmlPullParserException {
         parser.require(XmlPullParser.START_TAG, ns, "mTitle");
         String title = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "mTitle");
         return title;
-    }
-
-    // Processes link tags in the feed.
-    private String readLink(XmlPullParser parser) throws IOException, XmlPullParserException {
-        String link = "";
-        parser.require(XmlPullParser.START_TAG, ns, "link");
-        String tag = parser.getName();
-        String relType = parser.getAttributeValue(null, "rel");
-        if (tag.equals("link")) {
-            if (relType.equals("alternate")) {
-                link = parser.getAttributeValue(null, "href");
-                parser.nextTag();
-            }
-        }
-        parser.require(XmlPullParser.END_TAG, ns, "link");
-        return link;
     }
 
     // Processes mSubtitle tags in the group.

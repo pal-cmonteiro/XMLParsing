@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             ConstellationXmlPaser constellationXmlPaser = new ConstellationXmlPaser();
             Constellation constellation = constellationXmlPaser.parse(in_s);
 
-            String text="";
+                String text="";
 //            ArrayList<Country> countries=  parseXML(parser);
 //            for(Country country:countries)
 //            {

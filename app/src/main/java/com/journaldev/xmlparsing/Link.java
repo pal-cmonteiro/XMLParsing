@@ -1,30 +1,41 @@
 package com.journaldev.xmlparsing;
 
 public class Link {
-    String mTitle;
-    String mSubtitle;
-    String mText;
 
-    public Link(String title, String subtitle, String text) {
-        mTitle = title;
-        mSubtitle = subtitle;
+    private String mUrl;
+    private String mHref;
+    private String mIcon;
+    private String mText;
+
+    public Link(String url, String href, String icon, String text) {
+        mUrl = url;
+        mHref = href;
+        mIcon = icon;
         mText = text;
     }
 
-    public String getTitle() {
-        return mTitle;
+    public String getUrl() {
+        return mUrl;
     }
 
-    public void setTitle(String title) {
-        mTitle = title;
+    public void setUrl(String url) {
+        mUrl = url;
     }
 
-    public String getSubtitle() {
-        return mSubtitle;
+    public String getHref() {
+        return mHref;
     }
 
-    public void setSubtitle(String subtitle) {
-        mSubtitle = subtitle;
+    public void setHref(String href) {
+        mHref = href;
+    }
+
+    public String getIcon() {
+        return mIcon;
+    }
+
+    public void setIcon(String icon) {
+        mIcon = icon;
     }
 
     public String getText() {
