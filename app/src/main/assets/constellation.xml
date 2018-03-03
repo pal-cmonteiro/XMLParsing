@@ -9,6 +9,7 @@
         <link url="" icon="?">LINK 2</link>
         <link href="http://www.google.com" icon="?">LINK 3</link>
     </links>
-    <text title="Text" subtitle="">Text Message</text>
+    <text title="TextTitle" subtitle="TextSubtitle">Text le Text</text>
+    <text title="TextTitle2" subtitle="TextSubtitle2">Text le Text2</text>
 </root>
 

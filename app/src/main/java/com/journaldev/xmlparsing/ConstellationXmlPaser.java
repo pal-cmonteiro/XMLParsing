@@ -22,6 +22,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class parses XML feeds from stackoverflow.com.
@@ -49,7 +50,8 @@ public class ConstellationXmlPaser {
 
     private Constellation readRoot(XmlPullParser parser) throws XmlPullParserException, IOException {
         Constellation constellation = new Constellation();
-        constellation.setGroups(new ArrayList<Group>());
+        List<Group> groups = new ArrayList<>();
+        List<Text> texts = new ArrayList<>();
 
         parser.require(XmlPullParser.START_TAG, ns, "root");
         while (parser.next() != XmlPullParser.END_TAG) {
@@ -57,14 +59,32 @@ public class ConstellationXmlPaser {
                 continue;
             }
             String name = parser.getName();
-            // Starts by looking for the group tag
-            if (name.equals("groups")) {
+            if (name.equals("text")) {
+                texts.add(readTextBlock(parser));
+            } else if (name.equals("groups")) {
                 constellation.setGroups(parseGroupsXML(parser));
             } else {
                 skip(parser);
             }
         }
+        constellation.setTexts(texts);
         return constellation;
+    }
+
+    // Parses the contents of an group. If it encounters a mTitle, summary, or link tag, hands them
+    // off
+    // to their respective &quot;read&quot; methods for processing. Otherwise, skips the tag.
+    private Text readTextBlock(XmlPullParser parser) throws XmlPullParserException, IOException {
+        String title, subtitle, text = "";
+        parser.require(XmlPullParser.START_TAG, ns, "text");
+        String tag = parser.getName();
+        title = parser.getAttributeValue(ns, "title");
+        subtitle = parser.getAttributeValue(ns, "subtitle");
+        if (tag.equals("text")) {
+            text = readText(parser);
+        }
+        parser.require(XmlPullParser.END_TAG, ns, "text");
+        return new Text(title, subtitle, text);
     }
 
     private ArrayList<Group> parseGroupsXML(XmlPullParser parser) throws XmlPullParserException,IOException {

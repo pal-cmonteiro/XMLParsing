@@ -46,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
 //
 //                text+= "id : "+country.getId()+" name : "+country.getName()+" capital : "+country.getCapital()+"\n";
 //            }
+            for (Text textBlock : constellation.getTexts()) {
+                text += "textBlock: " + textBlock.getTitle() + "\n" +
+                        "subtitle: " + textBlock.getSubtitle() + "\n" +
+                        "text: " + textBlock.getText() + "\n";
+            }
 
             textView.setText(text);
 

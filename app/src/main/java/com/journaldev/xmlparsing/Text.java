@@ -1,24 +1,43 @@
 package com.journaldev.xmlparsing;
 
-public class Group {// This class represents a single group (post) in the XML feed.
+public class Text {// This class represents a single group (post) in the XML feed.
 
-    // It includes the data members "title," "link," and "summary."
-    String title;
-    String subtitle;
+    // It includes the data members "mTitle," "link," and "summary."
+    private String mTitle;
+    private String mSubtitle;
+    private String mText;
+
+    public Text(String title, String subtitle, String text) {
+        mTitle = title;
+        mSubtitle = subtitle;
+        mText = text;
+    }
+
+    public Text() {
+
+    }
 
     public String getTitle() {
-        return title;
+        return mTitle;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        mTitle = title;
     }
 
     public String getSubtitle() {
-        return subtitle;
+        return mSubtitle;
     }
 
     public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
+        subtitle = subtitle;
+    }
+
+    public String getText() {
+        return mText;
+    }
+
+    public void setText(String text) {
+        mText = text;
     }
 }

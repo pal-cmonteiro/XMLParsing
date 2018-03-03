@@ -1,8 +1,24 @@
 package com.journaldev.xmlparsing;
 
-/**
- * Created by carlos on 02/03/2018.
- */
+import java.util.List;
 
 class Constellation {
+    private List<Group> mGroups;
+    private List<Text> mTexts;
+
+    public List<Group> getGroups() {
+        return mGroups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        mGroups = groups;
+    }
+
+    public List<Text> getTexts() {
+        return mTexts;
+    }
+
+    public void setTexts(List<Text> texts) {
+        mTexts = texts;
+    }
 }
