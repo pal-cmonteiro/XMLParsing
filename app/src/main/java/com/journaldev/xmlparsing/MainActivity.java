@@ -39,13 +39,7 @@ public class MainActivity extends AppCompatActivity {
             ConstellationXmlPaser constellationXmlPaser = new ConstellationXmlPaser();
             Constellation constellation = constellationXmlPaser.parse(in_s);
 
-                String text="";
-//            ArrayList<Country> countries=  parseXML(parser);
-//            for(Country country:countries)
-//            {
-//
-//                text+= "id : "+country.getId()+" name : "+country.getName()+" capital : "+country.getCapital()+"\n";
-//            }
+            String text="";
             for (LinkSection linkSection : constellation.getLinkSections()) {
                 text += "LinkSection: " + linkSection.getTitle() + ", " + linkSection.getSubtitle()
                         + ", " + linkSection.getLayout()+"\n";
