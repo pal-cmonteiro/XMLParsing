@@ -7,8 +7,7 @@ public class GroupSection extends Section {
     private List<Group> mGroups;
 
     public GroupSection(String title, String subtitle, String layout, List<Group> groups) {
-        setTitle(title);
-        setSubtitle(subtitle);
+        super(title,subtitle);
         mLayout = layout;
         mGroups = groups;
     }

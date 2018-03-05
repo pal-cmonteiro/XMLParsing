@@ -7,8 +7,7 @@ public class LinkSection extends Section {
     private List<Link> mLinks;
 
     LinkSection(String title, String subtitle, String layout, List<Link> links) {
-        setTitle(title);
-        setSubtitle(subtitle);
+        super(title, subtitle);
         mLayout = layout;
         mLinks = links;
     }

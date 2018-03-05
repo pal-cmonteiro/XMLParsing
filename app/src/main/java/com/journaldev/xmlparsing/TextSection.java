@@ -5,8 +5,7 @@ public class TextSection extends Section {
     private String mText;
 
     public TextSection(String title, String subtitle, String text) {
-        setTitle(title);
-        setSubtitle(subtitle);
+        super(title, subtitle);
         mText = text;
     }
 
