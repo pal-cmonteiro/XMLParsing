@@ -29,7 +29,7 @@ import java.util.List;
  * Given an InputStream representation of a feed, it returns a List of entries,
  * where each list element represents a single group (post) in the XML feed.
  */
-public class ConstellationXmlPaser {
+public class ConstellationXmlParser {
     private static final String ns = null;
 
     // We don't use namespaces
@@ -50,9 +50,7 @@ public class ConstellationXmlPaser {
 
     private Constellation readRoot(XmlPullParser parser) throws XmlPullParserException, IOException {
         Constellation constellation = new Constellation();
-        List<Group> groups = new ArrayList<>();
-        List<LinkSection> linkSections = new ArrayList<>();
-        List<TextSection> textSections = new ArrayList<>();
+        List<Section> sections = new ArrayList<>();
 
         parser.require(XmlPullParser.START_TAG, ns, "root");
         while (parser.next() != XmlPullParser.END_TAG) {
@@ -61,17 +59,16 @@ public class ConstellationXmlPaser {
             }
             String name = parser.getName();
             if (name.equals("links")) {
-                linkSections.add(readLinksSection(parser));
+                sections.add(readLinksSection(parser));
             } else if (name.equals("groups")) {
                 constellation.setGroups(parseGroupsXML(parser));
             } else if (name.equals("text")) {
-                textSections.add(readTextSection(parser));
+                sections.add(readTextSection(parser));
             } else {
                 skip(parser);
             }
         }
-        constellation.setLinkSections(linkSections);
-        constellation.setTextSections(textSections);
+        constellation.setSections(sections);
         return constellation;
     }
 
@@ -123,9 +120,7 @@ public class ConstellationXmlPaser {
     private LinkSection readLinksSection(XmlPullParser parser) throws XmlPullParserException,IOException {
         //LinkSection linkSection = new LinkSection();
         parser.require(XmlPullParser.START_TAG, ns, "links");
-        String title = "";
-        String subtitle = "";
-        String layout = "";
+        String title, subtitle, layout;
         List<Link> links = new ArrayList<>();
 
         title = parser.getAttributeValue(ns, "title");

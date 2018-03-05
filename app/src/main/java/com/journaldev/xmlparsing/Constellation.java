@@ -4,30 +4,17 @@ import java.util.List;
 
 class Constellation {
     private List<Group> mGroups;
-    private List<LinkSection> mLinkSections;
-    private List<TextSection> mTextSections;
-
-    public List<Group> getGroups() {
-        return mGroups;
-    }
+    private List<Section> mSections;
 
     public void setGroups(List<Group> groups) {
         mGroups = groups;
     }
 
-    public List<LinkSection> getLinkSections() {
-        return mLinkSections;
+    public List<Section> getSections() {
+        return mSections;
     }
 
-    public void setLinkSections(List<LinkSection> linkSections) {
-        mLinkSections = linkSections;
-    }
-
-    public List<TextSection> getTextSections() {
-        return mTextSections;
-    }
-
-    public void setTextSections(List<TextSection> textSections) {
-        mTextSections = textSections;
+    public void setSections(List<Section> sections) {
+        mSections = sections;
     }
 }

@@ -10,7 +10,6 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,28 +35,31 @@ public class MainActivity extends AppCompatActivity {
             parser.setInput(in_s, null);
 
 
-            ConstellationXmlPaser constellationXmlPaser = new ConstellationXmlPaser();
-            Constellation constellation = constellationXmlPaser.parse(in_s);
+            ConstellationXmlParser constellationXmlParser = new ConstellationXmlParser();
+            Constellation constellation = constellationXmlParser.parse(in_s);
 
             String text="";
-            for (LinkSection linkSection : constellation.getLinkSections()) {
-                text += "LinkSection: " + linkSection.getTitle() + ", " + linkSection.getSubtitle()
-                        + ", " + linkSection.getLayout()+"\n";
-                for (Link link : linkSection.getLinks()) {
-                    text += "Link: " +
-                            (link.getUri() != null ? "uri: "+link.getUri() + ", ": "") +
-                            (link.getHref() != null ? "href: "+link.getHref() + ", ": "") +
-                            (link.getIcon() != null ? "icon: "+link.getIcon() + ", ": "") +
-                            "\n";
+            for (Section section : constellation.getSections()) {
+                text += "Section: " + section.getTitle() + ", " + section.getSubtitle();
+                if (section instanceof LinkSection) {
+                    LinkSection linkSection = (LinkSection) section;
+                    text += ", " + linkSection.getLayout() + "\n";
+                    for (Link link : linkSection.getLinks()) {
+                        text += "Link: " +
+                                (link.getUri() != null ? "uri: " + link.getUri() + ", " : "") +
+                                (link.getHref() != null ? "href: " + link.getHref() + ", " : "") +
+                                (link.getIcon() != null ? "icon: " + link.getIcon() + ", " : "") +
+                                "\n";
+                    }
+                } else if (section instanceof TextSection) {
+                    TextSection textSection = (TextSection) section;
+                    text += "\n" +
+                            "text: " + textSection.getText() + "\n";
                 }
                 text +="\n";
             }
 
-            for (TextSection textSection : constellation.getTextSections()) {
-                text += "textSection: " + textSection.getTitle() + ", " + "subtitle: " + textSection.getSubtitle() + "\n" +
-                        "text: " + textSection.getText() + "\n";
-                text +="\n";
-            }
+
 
             textView.setText(text);
 
