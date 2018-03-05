@@ -46,8 +46,6 @@ public class ConstellationXmlParser {
         }
     }
 
-
-
     private Constellation readRoot(XmlPullParser parser) throws XmlPullParserException, IOException {
         Constellation constellation = new Constellation();
         List<Section> sections = new ArrayList<>();
@@ -61,7 +59,7 @@ public class ConstellationXmlParser {
             if (name.equals("links")) {
                 sections.add(readLinksSection(parser));
             } else if (name.equals("groups")) {
-                constellation.setGroups(parseGroupsXML(parser));
+                sections.add(readGroupsSection(parser));
             } else if (name.equals("text")) {
                 sections.add(readTextSection(parser));
             } else {
@@ -72,10 +70,14 @@ public class ConstellationXmlParser {
         return constellation;
     }
 
-    private ArrayList<Group> parseGroupsXML(XmlPullParser parser) throws XmlPullParserException,IOException {
-        ArrayList<Group> groups = new ArrayList<>();
-
+    private GroupSection readGroupsSection(XmlPullParser parser) throws XmlPullParserException,IOException {
         parser.require(XmlPullParser.START_TAG, ns, "groups");
+        String title, subtitle, layout;
+        List<Group> groups = new ArrayList<>();
+
+        title = parser.getAttributeValue(ns, "title");
+        subtitle = parser.getAttributeValue(ns, "subtitle");
+        layout = parser.getAttributeValue(ns, "layout");
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
@@ -88,7 +90,7 @@ public class ConstellationXmlParser {
                 skip(parser);
             }
         }
-        return groups;
+        return new GroupSection(title, subtitle, layout, groups);
     }
 
 
@@ -97,28 +99,22 @@ public class ConstellationXmlParser {
     // to their respective &quot;read&quot; methods for processing. Otherwise, skips the tag.
     private Group readGroup(XmlPullParser parser) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, ns, "group");
-        String title = null;
-        String subtitle = null;
-        while (parser.next() != XmlPullParser.END_TAG) {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
-                continue;
-            }
-            String name = parser.getName();
-            if (name.equals("mTitle")) {
-                title = readTitle(parser);
-            } else if (name.equals("summary")) {
-                subtitle = readSubtitle(parser);
-            } else {
-                skip(parser);
-            }
+        String id = "";
+        String icon = "";
+        String text = "";
+        String tag = parser.getName();
+        if (tag.equals("group")) {
+            id = parser.getAttributeValue(ns, "id");
+            icon = parser.getAttributeValue(ns, "icon");
+            text = readText(parser);
         }
-        return new Group(title, subtitle);
+        parser.require(XmlPullParser.END_TAG, ns, "group");
+        return new Group(id, icon, text);
     }
 
 
 
     private LinkSection readLinksSection(XmlPullParser parser) throws XmlPullParserException,IOException {
-        //LinkSection linkSection = new LinkSection();
         parser.require(XmlPullParser.START_TAG, ns, "links");
         String title, subtitle, layout;
         List<Link> links = new ArrayList<>();

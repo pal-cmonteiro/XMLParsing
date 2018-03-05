@@ -41,7 +41,16 @@ public class MainActivity extends AppCompatActivity {
             String text="";
             for (Section section : constellation.getSections()) {
                 text += "Section: " + section.getTitle() + ", " + section.getSubtitle();
-                if (section instanceof LinkSection) {
+                if (section instanceof GroupSection) {
+                    GroupSection groupSection = (GroupSection) section;
+                    text += ", " + groupSection.getLayout() + "\n";
+                    for (Group group : groupSection.getGroups()) {
+                        text += "Group: " +
+                                (group.getId() != null ? "id: " + group.getId() + ", " : "") +
+                                (group.getIcon() != null ? "icon: " + group.getIcon() + ", " : "") +
+                                "\n";
+                    }
+                } else if (section instanceof LinkSection) {
                     LinkSection linkSection = (LinkSection) section;
                     text += ", " + linkSection.getLayout() + "\n";
                     for (Link link : linkSection.getLinks()) {

@@ -2,7 +2,7 @@
 <root>
     <groups title="GroupsTitle" subtitle="GroupsSubtitle" layout="vertical">
         <group id="1"></group>
-        <group id="2"></group>
+        <group id="2" icon="icon2"></group>
     </groups>
     <links title="LinksTitle" subtitle="LinksSubtitle" layout="vertical">
         <link uri="" icon="?">LINK 1</link>
