@@ -2,33 +2,15 @@ package com.journaldev.xmlparsing;
 
 import java.util.List;
 
-public class LinkSection {
-    private String mTitle;
-    private String mSubtitle;
+public class LinkSection extends Section {
     private String mLayout;
     private List<Link> mLinks;
 
     LinkSection(String title, String subtitle, String layout, List<Link> links) {
-        mTitle = title;
-        mSubtitle = subtitle;
+        setTitle(title);
+        setSubtitle(subtitle);
         mLayout = layout;
         mLinks = links;
-    }
-
-    public String getTitle() {
-        return mTitle;
-    }
-
-    public void setTitle(String title) {
-        mTitle = title;
-    }
-
-    public String getSubtitle() {
-        return mSubtitle;
-    }
-
-    public void setSubtitle(String subtitle) {
-        mSubtitle = subtitle;
     }
 
     public String getLayout() {
