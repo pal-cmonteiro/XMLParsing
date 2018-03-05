@@ -58,9 +58,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 text +="\n";
             }
-            for (Text textBlock : constellation.getTexts()) {
-                text += "textBlock: " + textBlock.getTitle() + ", " + "subtitle: " + textBlock.getSubtitle() + "\n" +
-                        "text: " + textBlock.getText() + "\n";
+
+            for (TextSection textSection : constellation.getTextSections()) {
+                text += "textSection: " + textSection.getTitle() + ", " + "subtitle: " + textSection.getSubtitle() + "\n" +
+                        "text: " + textSection.getText() + "\n";
                 text +="\n";
             }
 
@@ -78,41 +79,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private ArrayList<Country> parseXML(XmlPullParser parser) throws XmlPullParserException,IOException
-    {
-        ArrayList<Country> countries = null;
-        int eventType = parser.getEventType();
-        Country country = null;
-
-        while (eventType != XmlPullParser.END_DOCUMENT){
-            String name;
-            switch (eventType){
-                case XmlPullParser.START_DOCUMENT:
-                    countries = new ArrayList();
-                    break;
-                case XmlPullParser.START_TAG:
-                    name = parser.getName();
-                    if (name.equals("country")){
-                        country = new Country();
-                        country.id=parser.getAttributeValue(null,"id");
-                    } else if (country != null){
-                        if (name.equals("name")){
-                            country.name = parser.nextText();
-                        } else if (name.equals("capital")){
-                            country.capital = parser.nextText();
-                        }
-                    }
-                    break;
-                case XmlPullParser.END_TAG:
-                    name = parser.getName();
-                    if (name.equalsIgnoreCase("country") && country != null){
-                        countries.add(country);
-                    }
-            }
-            eventType = parser.next();
-        }
-
-        return countries;
-
-    }
 }

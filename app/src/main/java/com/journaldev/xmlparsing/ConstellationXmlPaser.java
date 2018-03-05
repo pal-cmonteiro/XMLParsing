@@ -52,7 +52,7 @@ public class ConstellationXmlPaser {
         Constellation constellation = new Constellation();
         List<Group> groups = new ArrayList<>();
         List<LinkSection> linkSections = new ArrayList<>();
-        List<Text> texts = new ArrayList<>();
+        List<TextSection> textSections = new ArrayList<>();
 
         parser.require(XmlPullParser.START_TAG, ns, "root");
         while (parser.next() != XmlPullParser.END_TAG) {
@@ -65,13 +65,13 @@ public class ConstellationXmlPaser {
             } else if (name.equals("groups")) {
                 constellation.setGroups(parseGroupsXML(parser));
             } else if (name.equals("text")) {
-                texts.add(readTextBlock(parser));
+                textSections.add(readTextSection(parser));
             } else {
                 skip(parser);
             }
         }
         constellation.setLinkSections(linkSections);
-        constellation.setTexts(texts);
+        constellation.setTextSections(textSections);
         return constellation;
     }
 
@@ -169,7 +169,7 @@ public class ConstellationXmlPaser {
     // Parses the contents of an group. If it encounters a mTitle, summary, or link tag, hands them
     // off
     // to their respective &quot;read&quot; methods for processing. Otherwise, skips the tag.
-    private Text readTextBlock(XmlPullParser parser) throws XmlPullParserException, IOException {
+    private TextSection readTextSection(XmlPullParser parser) throws XmlPullParserException, IOException {
         String title, subtitle, text = "";
         parser.require(XmlPullParser.START_TAG, ns, "text");
         String tag = parser.getName();
@@ -179,7 +179,7 @@ public class ConstellationXmlPaser {
             text = readText(parser);
         }
         parser.require(XmlPullParser.END_TAG, ns, "text");
-        return new Text(title, subtitle, text);
+        return new TextSection(title, subtitle, text);
     }
 
     // Processes mTitle tags in the feed.
