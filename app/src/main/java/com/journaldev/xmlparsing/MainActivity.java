@@ -41,24 +41,23 @@ public class MainActivity extends AppCompatActivity {
             String text="";
             for (Section section : constellation.getSections()) {
                 text += "Section: " + section.getTitle() + ", " + section.getSubtitle();
-                if (section instanceof GroupSection) {
-                    GroupSection groupSection = (GroupSection) section;
-                    text += ", " + groupSection.getLayout() + "\n";
-                    for (Group group : groupSection.getGroups()) {
-                        text += "Group: " +
-                                (group.getId() != null ? "id: " + group.getId() + ", " : "") +
-                                (group.getIcon() != null ? "icon: " + group.getIcon() + ", " : "") +
-                                "\n";
-                    }
-                } else if (section instanceof LinkSection) {
-                    LinkSection linkSection = (LinkSection) section;
-                    text += ", " + linkSection.getLayout() + "\n";
-                    for (Link link : linkSection.getLinks()) {
-                        text += "Link: " +
-                                (link.getUri() != null ? "uri: " + link.getUri() + ", " : "") +
-                                (link.getHref() != null ? "href: " + link.getHref() + ", " : "") +
-                                (link.getIcon() != null ? "icon: " + link.getIcon() + ", " : "") +
-                                "\n";
+                if (section instanceof ItemSection) {
+                    text += ", " + ((ItemSection) section).getLayoutString() + "\n";
+                    for (Object item : ((ItemSection) section).getItems()) {
+                        if (item instanceof Group) {
+                            Group group = (Group) item;
+                            text += "Group: " +
+                                    (group.getId() != null ? "id: " + group.getId() + ", " : "") +
+                                    (group.getIcon() != null ? "icon: " + group.getIcon() + ", " : "") +
+                                    "\n";
+                        } else if (item instanceof Link) {
+                            Link link = (Link) item;
+                            text += "Link: " +
+                                    (link.getUri() != null ? "uri: " + link.getUri() + ", " : "") +
+                                    (link.getHref() != null ? "href: " + link.getHref() + ", " : "") +
+                                    (link.getIcon() != null ? "icon: " + link.getIcon() + ", " : "") +
+                                    "\n";
+                        }
                     }
                 } else if (section instanceof TextSection) {
                     TextSection textSection = (TextSection) section;

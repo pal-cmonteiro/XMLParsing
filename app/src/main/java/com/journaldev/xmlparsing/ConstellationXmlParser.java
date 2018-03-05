@@ -15,6 +15,7 @@
 package com.journaldev.xmlparsing;
 
 import android.util.Xml;
+import android.widget.LinearLayout;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -70,14 +71,15 @@ public class ConstellationXmlParser {
         return constellation;
     }
 
-    private GroupSection readGroupsSection(XmlPullParser parser) throws XmlPullParserException,IOException {
+    private ItemSection<Group> readGroupsSection(XmlPullParser parser) throws XmlPullParserException,IOException {
         parser.require(XmlPullParser.START_TAG, ns, "groups");
-        String title, subtitle, layout;
+        String title, subtitle;
+        @ItemSection.SectionLayout int layout;
         List<Group> groups = new ArrayList<>();
 
-        title = parser.getAttributeValue(ns, "title");
-        subtitle = parser.getAttributeValue(ns, "subtitle");
-        layout = parser.getAttributeValue(ns, "layout");
+        title = getTitle(parser);
+        subtitle = getSubtitle(parser);
+        layout = getLayout(parser);
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
@@ -90,7 +92,7 @@ public class ConstellationXmlParser {
                 skip(parser);
             }
         }
-        return new GroupSection(title, subtitle, layout, groups);
+        return new ItemSection<>(title, subtitle, layout, groups);
     }
 
 
@@ -114,14 +116,15 @@ public class ConstellationXmlParser {
 
 
 
-    private LinkSection readLinksSection(XmlPullParser parser) throws XmlPullParserException,IOException {
+    private ItemSection<Link> readLinksSection(XmlPullParser parser) throws XmlPullParserException,IOException {
         parser.require(XmlPullParser.START_TAG, ns, "links");
-        String title, subtitle, layout;
+        String title, subtitle;
+        @ItemSection.SectionLayout int layout;
         List<Link> links = new ArrayList<>();
 
-        title = parser.getAttributeValue(ns, "title");
-        subtitle = parser.getAttributeValue(ns, "subtitle");
-        layout = parser.getAttributeValue(ns, "layout");
+        title = getTitle(parser);
+        subtitle = getSubtitle(parser);
+        layout = getLayout(parser);
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
@@ -134,7 +137,22 @@ public class ConstellationXmlParser {
                 skip(parser);
             }
         }
-        return new LinkSection(title, subtitle, layout, links);
+        return new ItemSection<>(title, subtitle, layout, links);
+    }
+
+    private String getSubtitle(XmlPullParser parser) {
+        return parser.getAttributeValue(ns, "subtitle");
+    }
+
+    private String getTitle(XmlPullParser parser) {
+        return parser.getAttributeValue(ns, "title");
+    }
+
+    private int getLayout(XmlPullParser parser) {
+        if (parser.getAttributeValue(ns, "layout").equalsIgnoreCase("vertical")) {
+            return LinearLayout.VERTICAL;
+        }
+        return LinearLayout.HORIZONTAL;
     }
 
     // Parses the contents of an link. If it encounters a mTitle, summary, or link tag, hands them
@@ -164,8 +182,8 @@ public class ConstellationXmlParser {
         String title, subtitle, text = "";
         parser.require(XmlPullParser.START_TAG, ns, "text");
         String tag = parser.getName();
-        title = parser.getAttributeValue(ns, "title");
-        subtitle = parser.getAttributeValue(ns, "subtitle");
+        title = getTitle(parser);
+        subtitle = getSubtitle(parser);
         if (tag.equals("text")) {
             text = readText(parser);
         }
